@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	
+    <property name="LOGS" value="${logs}" />
+    <appender name="Console"
+        class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="RollingFile"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/application.log</file>
+        <encoder
+            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </encoder>
+        
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/application-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+    
+    <appender name="Audit" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOGS}/audit.log</file>
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+	        <Pattern>
+	            %d{yyyy-MM-dd HH:mm:ss}, %msg%n
+	        </Pattern>
+	    </encoder>
+	    
+	    <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/audit-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+	</appender>
+	
+	<appender name="Replenishment" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOGS}/Replenishment.log</file>
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+	        <Pattern>
+	            %d{yyyy-MM-dd HH:mm:ss}, %msg%n
+	        </Pattern>
+	    </encoder>
+	    
+	    <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/Replenishment-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+	</appender>
+	
+	<appender name="Match" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOGS}/match.log</file>
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+	        <Pattern>
+	            %d{yyyy-MM-dd HH:mm:ss}, %msg%n
+	        </Pattern>
+	    </encoder>
+	    
+	    <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/match-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+       
+	</appender>
+	
+	<!-- <appender name="AWS-MATCH" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	  <file>match.log</file>
+	  <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+	   	<Pattern>
+	    	%d{yyyy-MM-dd HH:mm:ss}, %msg%n
+	  	</Pattern>
+	  </encoder>
+	  <rollingPolicy class="ch.qos.logback.core.rolling.S3TimeBasedRollingPolicy">
+	    Rollover every minute
+	    <fileNamePattern>logs/match.%d{yyyy-MM-dd_HH-mm}.%i.log.gz</fileNamePattern>
+	    <awsAccessKey>AKIA5E2EO2FHRDNKVP4Q</awsAccessKey>
+		<awsSecretKey>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</awsSecretKey>
+		<s3BucketName>logs123412</s3BucketName>
+		<s3FolderName>logs</s3FolderName>
+	    <rolloverOnExit>true</rolloverOnExit>
+	    <shutdownHookType>SERVLET_CONTEXT</shutdownHookType>
+	    <prefixTimestamp>false</prefixTimestamp>
+	    <prefixIdentifier>true</prefixIdentifier>
+	    <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+	      <maxFileSize>10MB</maxFileSize>
+	    </timeBasedFileNamingAndTriggeringPolicy>
+	  </rollingPolicy>
+	</appender>
+	
+	<appender name="AWS-CONSOLE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	  <file>application.log</file>
+	  <encoder
+            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+      </encoder>
+	  <rollingPolicy class="ch.qos.logback.core.rolling.S3TimeBasedRollingPolicy">
+	    Rollover every minute
+	    <fileNamePattern>logs/application.%d{yyyy-MM-dd_HH-mm}.%i.log.gz</fileNamePattern>
+	    <awsAccessKey>AKIA5E2EO2FHRDNKVP4Q</awsAccessKey>
+		<awsSecretKey>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</awsSecretKey>
+		<s3BucketName>logs123412</s3BucketName>
+		<s3FolderName>logs</s3FolderName>
+	    <rolloverOnExit>true</rolloverOnExit>
+	    <shutdownHookType>SERVLET_CONTEXT</shutdownHookType>
+	    <prefixTimestamp>false</prefixTimestamp>
+	    <prefixIdentifier>true</prefixIdentifier>
+	    <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+	      <maxFileSize>10MB</maxFileSize>
+	    </timeBasedFileNamingAndTriggeringPolicy>
+	  </rollingPolicy>
+	</appender> -->
+	
+    <!-- LOG everything at INFO level -->
+    <root level="debug">
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </root>
+    
+    <logger name="audit" level="debug" additivity="false">
+	    <appender-ref ref="Audit" />
+	    <appender-ref ref="Console" />
+	</logger>
+	
+	<logger name="replenishment" level="debug" additivity="false">
+	    <appender-ref ref="Replenishment" />
+	    <appender-ref ref="Console" />
+	</logger>
+	
+	<logger name="match" level="debug" additivity="false">
+	    <appender-ref ref="Match" />
+	    <appender-ref ref="Console" />
+	</logger>
+
+</configuration>
